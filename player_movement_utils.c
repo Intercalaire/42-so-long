@@ -14,7 +14,7 @@
 
 static void	had_move(t_game *game, int x, int y)
 {
-	if (game->position.x != x || game->position.y != y)
+	if (game->map.player_pos.x != x || game->map.player_pos.y != y)
 	{
 		game->player_move++;
 		ft_putnbr_fd(game->player_move++, 1);
@@ -29,24 +29,24 @@ static void	collect(t_game *game)
 	k = 0;
 	while (k < game->map.collectible)
 	{
-		if (game->map.collectible[k].x == game->position.x
-			&& game->map.collectible[k].y == game->position.y)
+		if (game->map.collectible_pos[k].x == game->map.player_pos.x
+			&& game->map.collectible_pos[k].y == game->map.player_pos.y)
 		{
-			game->map.collectible[k].x = -1;
-			game->map.collectible[k].y = -1;
+			game->map.collectible_pos[k].x = -1;
+			game->map.collectible_pos[k].y = -1;
 			game->map.collectible++;
 		}
 		k++;
 	}
 }
 
-void	move_player (t_game *game)
+void	move_player(t_game *game)
 {
 	int				x;
 	int				y;
 
-	x = game->position.x;
-	y = game->position.y;
+	x = game->map.player_pos.x;
+	y = game->map.player_pos.y;
 	if (game->player_up != 0)
 		move_up(game, x, y);
 	else if (game->player_down != 0)
@@ -57,8 +57,8 @@ void	move_player (t_game *game)
 		move_right(game, x, y);
 	had_move(game, x, y);
 	collect(game);
-	if (game->map->exit.x == game->position->x
-		&& game->map->exit.y == game->position->y)
-		if (game->map->collectible == game->map->coll)
-			game_clear(game, 0, 0);
+	if (game->map.exit_pos.x == game->map.player_pos.x
+		&& game->map.exit_pos.y == game->map.player_pos.y)
+		if (game->map.collectible == game->map.player_coll)
+			error_message("fin", game);
 }

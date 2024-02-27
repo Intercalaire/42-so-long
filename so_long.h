@@ -36,7 +36,11 @@ typedef struct s_map
 	int			collectible;
 	int			exit;
 	int			player;
-	t_position	position;
+	int			player_coll;
+	t_position	player_pos;
+	t_position	exit_pos;
+	t_position	*collectible_pos;
+	t_position	*position;
 }	t_map;
 
 typedef struct s_texture
@@ -46,8 +50,7 @@ typedef struct s_texture
 	void	*exit;
 	void	*player;
 	void	*background;
-}				t_texture;
-
+}	t_texture;
 
 typedef struct s_game
 {
@@ -96,6 +99,7 @@ void	move_down(t_game *game, int x, int y);
 void	move_up(t_game *game, int x, int y);
 void	move_left(t_game *game, int x, int y);
 void	move_right(t_game *game, int x, int y);
+void	move_player(t_game *game);
 
 // GAME OBJECTS KEYS
 # define Player 'P'

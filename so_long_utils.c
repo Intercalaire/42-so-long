@@ -42,14 +42,15 @@ int key_hook(int key, void* param)
     game = (t_game *)param;
     if(key == ESC)
         mlx_loop_end(param);
-    if(key == 22) // 4 = a
-        move_down(game, 5, 5);
-    if(key == 4) // 4 = a
-        move_left(game, 5, 5);
-    if(key == 7) // 4 = a
-        move_right(game, 5, 5);
-    if(key == 26) // 4 = a
-        move_up(game, 5, 5);
+    if(key == 22)
+        game->player_up++;
+    if(key == 4)
+        game->player_down++;
+    if(key == 7)
+        game->player_left++;
+    if(key == 26)
+        game->player_right++;
+    move_player(game);
     return (0);
 }
 
