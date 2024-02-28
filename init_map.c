@@ -135,7 +135,7 @@ void how_many_inside(t_game *game, char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == Player)
+		if (line[i] == PLAYER)
 			game->map.player++;
 		if (line[i] == EXIT)
 			game->map.exit++;

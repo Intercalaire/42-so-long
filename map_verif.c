@@ -24,39 +24,39 @@ void more_verif(t_game *game)
 
 void	check_rows(t_game *game)
 {
-	int	x;
+	int	y;
 
-	x = 0;
-	while (x < game->map.rows)
+	y = 0;
+	while (y < game->map.rows)
 	{
-		if (game->map.full[x][0] != WALL)
+		if (game->map.full[y][0] != WALL)
 		{
 			error_message("Error\nThe Map must be surrounded by walls on the left", game);
 		}
-		else if (game->map.full[x][game->map.columns - 1] != WALL)
+		else if (game->map.full[y][game->map.columns - 1] != WALL)
 		{
 			error_message("Error\nThe Map must be surrounded by walls on the right", game);
 		}
-		x++;
+		y++;
 	}
 }
 
 void	check_columns(t_game *game)
 {
-	int	y;
+	int	x;
 
-	y = 0;
-	while (y < game->map.columns)
+	x = 0;
+	while (x < game->map.columns)
 	{
-		if (game->map.full[0][y] != WALL)
+		if (game->map.full[0][x] != WALL)
 		{
-			error_message("Error\nThe Map must be surrounded by walls on the top line", game);
+			error_message("Error\nThe Map must be surrounded be walls on the top line", game);
 		}
-		else if (game->map.full[game->map.rows - 1][y] != WALL)
+		else if (game->map.full[game->map.rows - 1][x] != WALL)
 		{
-			error_message("Error\nThe Map must be surrounded by walls on the bottom line", game);
+			error_message("Error\nThe Map must be surrounded be walls on the bottom line", game);
 		}
-		y++;
+		x++;
 	}
 }
 

@@ -12,26 +12,102 @@
 
 #include "so_long.h"
 
-void	move_down(t_game *game, int x, int y)
+int	move_up(t_game *game)
 {
-	if (game->map.full[y + 1][x] == 0)
-		game->map.player_pos.y += 1;
+	if (game->map.full[game->map.player_pos.y / 90 - 1][game->map.player_pos.x / 90] == WALL ||
+	(game->map.full[game->map.player_pos.y / 90 - 1][game->map.player_pos.x / 90] == EXIT
+	&& game->map.collectible != 0))
+		return (0);
+	mlx_put_image_to_window(game->mlx, game->win, game->texture->background,
+		game->map.player_pos.x, game->map.player_pos.y);
+	game->map.player_pos.y -= 90;
+	game->player_move++;
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == COLLECTIBLE)
+	{
+		game->map.collectible--;
+		game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] = EMPTY;
+	}
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == EXIT)
+	{
+		if (game->map.collectible == 0)
+			data_clear(game);
+	}
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->player, game->map.player_pos.x, game->map.player_pos.y);
+	return (0);
 }
 
-void	move_up(t_game *game, int x, int y)
+int	move_down(t_game *game)
 {
-	if (game->map.full[y - 1][x] == 0)
-		game->map.player_pos.y -= 1;
+	if (game->map.full[game->map.player_pos.y / 90 + 1][game->map.player_pos.x / 90] == WALL ||
+	(game->map.full[game->map.player_pos.y / 90 + 1][game->map.player_pos.x / 90] == EXIT
+		&& game->map.collectible != 0))
+		return (0);
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->background, game->map.player_pos.x, game->map.player_pos.y);
+	game->map.player_pos.y += 90;
+	game->player_move++;
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == COLLECTIBLE)
+	{
+		game->map.collectible--;
+		game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] = EMPTY;
+	}
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == EXIT)
+	{
+		if (game->map.collectible == 0)
+			data_clear(game);
+	}
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->player, game->map.player_pos.x + 1, game->map.player_pos.y + 1);
+	return (0);
 }
 
-void	move_left(t_game *game, int x, int y)
+int	move_left(t_game *game)
 {
-	if (game->map.full[y][x - 1] == 0)
-		game->map.player_pos.x -= 1;
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90 - 1] == WALL ||
+	(game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90 - 1] == EXIT
+	&& game->map.collectible != 0))
+		return (0);
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->background, game->map.player_pos.x, game->map.player_pos.y);
+	game->map.player_pos.x -= 90;
+	game->player_move++;
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == COLLECTIBLE)
+	{
+		game->map.collectible--;
+		game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] = EMPTY;
+	}
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == EXIT)
+	{
+		if (game->map.collectible == 0)
+			data_clear(game);
+	}
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->player, game->map.player_pos.x, game->map.player_pos.y);
+	return (0);
 }
 
-void	move_right(t_game *game, int x, int y)
+int	move_right(t_game *game)
 {
-	if (game->map.full[y][x + 1] == 0)
-		game->map.player_pos.x += 1;
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90 + 1] == WALL ||
+	(game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90 + 1] == EXIT &&
+	game->map.collectible != 0))
+		return (0);
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->background, game->map.player_pos.x, game->map.player_pos.y);
+	game->map.player_pos.x += 90;
+	game->player_move++;
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == COLLECTIBLE)
+	{
+		game->map.collectible--;
+		game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] = EMPTY;
+	}
+	if (game->map.full[game->map.player_pos.y / 90][game->map.player_pos.x / 90] == EXIT)
+	{
+		if (game->map.collectible == 0)
+			data_clear(game);
+	}
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->texture->player, game->map.player_pos.x, game->map.player_pos.y);
+	return (0);
 }

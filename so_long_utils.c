@@ -26,6 +26,8 @@ void init_game(t_game *game, char *file_name)
     game->img_width = 0;
     game->img_height = 0;
     game->player_move = 0;
+    game->map.player_pos.x = 0;
+    game->map.player_pos.y = 0;
     game->map.full = init_map(game, file_name);
     game->map.columns = ft_strlen(game->map.full[0]) - 1;
     game->map.rows = columns_count(game, file_name);
@@ -34,23 +36,22 @@ void init_game(t_game *game, char *file_name)
 
 }
 
-/*close the window with the escape button 41 = escape*/
-int key_hook(int key, void* param)
+int key_hook(int key, void *param)
 {
     t_game *game;
 
     game = (t_game *)param;
+    ft_printf("steps = %d\n", game->player_move);
+    if(key == 22)
+        move_down(game);
+    if(key == 4)
+        move_left(game);
+    if(key == 7)
+        move_right(game);
+    if(key == 26)
+        move_up(game);
     if(key == ESC)
         mlx_loop_end(param);
-    if(key == 22)
-        game->player_up++;
-    if(key == 4)
-        game->player_down++;
-    if(key == 7)
-        game->player_left++;
-    if(key == 26)
-        game->player_right++;
-    move_player(game);
     return (0);
 }
 

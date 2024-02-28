@@ -23,7 +23,6 @@ SRC = so_long.c \
 	data_clear.c \
 	put_textures.c \
 	player_movement.c \
-	player_movement_utils.c \
 	
 
 OBJ = $(SRC:.c=.o)

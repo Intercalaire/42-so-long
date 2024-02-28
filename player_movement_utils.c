@@ -40,7 +40,7 @@ static void	collect(t_game *game)
 	}
 }
 
-void	move_player(t_game *game)
+void	move_player2(t_game *game)
 {
 	int				x;
 	int				y;

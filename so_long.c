@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     game->texture = texture;
     init_game(game, argv[1]);
     game->mlx = mlx_init();
-    game->win = mlx_new_window(game->mlx, 500, 400, "Hello world!");
+    game->win = mlx_new_window(game->mlx, game->map.columns * 90, game->map.rows * 90, "Hello world!");
     initialize_img(game, texture);
     more_verif(game);
     mlx_on_event(game->mlx, game->win, MLX_KEYDOWN, key_hook, game->mlx);

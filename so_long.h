@@ -95,14 +95,14 @@ void	put_player(t_texture *texture, t_game *game);
 void	put_backgrounds(t_texture *texture, t_game *game);
 void	put_all_textures(t_texture *texture, t_game *game);
 int columns_count(t_game *game, char *file_name);
-void	move_down(t_game *game, int x, int y);
-void	move_up(t_game *game, int x, int y);
-void	move_left(t_game *game, int x, int y);
-void	move_right(t_game *game, int x, int y);
+int	move_down(t_game *game);
+int	move_up(t_game *game);
+int	move_left(t_game *game);
+int	move_right(t_game *game);
 void	move_player(t_game *game);
 
 // GAME OBJECTS KEYS
-# define Player 'P'
+# define PLAYER 'P'
 # define EXIT 'E'
 # define COLLECTIBLE 'C'
 # define WALL '1'

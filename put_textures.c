@@ -23,8 +23,8 @@ void	put_walls(t_texture *texture, t_game *game)
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			if (game->map.full[y][x] == '1')
-				mlx_put_image_to_window(game->mlx, game->win, texture->wall, x * 80, y * 80);
+			if (game->map.full[y][x] == WALL)
+				mlx_put_image_to_window(game->mlx, game->win, texture->wall, x * 90, y * 90);
 			x++;
 		}
 		y++;
@@ -42,8 +42,8 @@ void	put_exit(t_texture *texture, t_game *game)
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			if (game->map.full[y][x] == 'E')
-				mlx_put_image_to_window(game->mlx, game->win, texture->exit, x * 80, y * 80);
+			if (game->map.full[y][x] == EXIT)
+				mlx_put_image_to_window(game->mlx, game->win, texture->exit, x * 90, y * 90);
 			x++;
 		}
 		y++;
@@ -61,8 +61,8 @@ void put_collectibles(t_texture *texture, t_game *game)
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			if (game->map.full[y][x] == 'C')
-				mlx_put_image_to_window(game->mlx, game->win, texture->collectible, x * 80, y * 80);
+			if (game->map.full[y][x] == COLLECTIBLE)
+				mlx_put_image_to_window(game->mlx, game->win, texture->collectible, x * 90, y * 90);
 			x++;
 		}
 		y++;
@@ -80,8 +80,8 @@ void put_player(t_texture *texture, t_game *game)
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			if (game->map.full[y][x] == 'P')
-				mlx_put_image_to_window(game->mlx, game->win, texture->player, x * 80, y * 80);
+			if (game->map.full[y][x] == PLAYER)
+				mlx_put_image_to_window(game->mlx, game->win, texture->player, x * 90, y * 90);
 			x++;
 		}
 		y++;
@@ -99,7 +99,7 @@ void	put_backgrounds(t_texture *texture, t_game *game)
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			mlx_put_image_to_window(game->mlx, game->win, texture->background, x * 80, y * 80);
+			mlx_put_image_to_window(game->mlx, game->win, texture->background, x * 90, y * 90);
 			x++;
 		}
 		y++;
