@@ -36,6 +36,29 @@ void init_game(t_game *game, char *file_name)
 
 }
 
+void	ft_player_move(t_game *game)
+{
+	int	last_x;
+	int	last_y;
+
+	last_x = game->map.player_pos.x;
+	last_y = game->map.player_pos.y;
+	if (game->map.full[0][0] == EXIT && game->map.collectible == 0)
+		data_clear(game);
+	else if ((game->map.full[0][0] == EMPTY)
+	|| (game->map.full[0][0] == COLLECTIBLE))
+	{
+		game->map.full[last_y][last_x] = EMPTY;
+		if (game->map.full[0][0] == COLLECTIBLE)
+			game->map.collectible--;
+		game->map.player_pos.x += 2;
+		game->map.player_pos.y = 0;
+		game->player_move++;
+        put_all_textures(game->texture, game);
+	}
+}
+
+
 int key_hook(int key, void *param)
 {
     t_game *game;
@@ -43,13 +66,13 @@ int key_hook(int key, void *param)
     game = (t_game *)param;
     ft_printf("steps = %d\n", game->player_move);
     if(key == 22)
-        move_down(game);
+        ft_player_move(game);
     if(key == 4)
-        move_left(game);
+        ft_player_move(game);
     if(key == 7)
-        move_right(game);
+        ft_player_move(game);
     if(key == 26)
-        move_up(game);
+       ft_player_move(game);
     if(key == ESC)
         mlx_loop_end(param);
     return (0);

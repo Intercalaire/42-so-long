@@ -60,6 +60,7 @@ void	check_columns(t_game *game)
 	}
 }
 
+
 void	verification_CEP(t_game *game)
 {
 	if (game->map.collectible == 0)
