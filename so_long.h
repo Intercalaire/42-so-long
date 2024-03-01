@@ -100,7 +100,10 @@ int	move_up(t_game *game);
 int	move_left(t_game *game);
 int	move_right(t_game *game);
 void	move_player(t_game *game);
+void	ft_player_move(t_game *game, int new_y, int new_x);
 void	ft_count_map_parameters(t_game *game);
+int playerx(t_game *game);
+int playery(t_game *game);
 
 // GAME OBJECTS KEYS
 # define PLAYER 'P'
