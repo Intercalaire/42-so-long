@@ -44,7 +44,7 @@ char **init_map(t_game *game, char *file_name)
 		error_message("Error\ngame or game->map is NULL", game);
 	extension_file(game, file_name);
 	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
+	if (fd < 0 || fd > 1024)
 		error_message("Error\nFailed to open file", game);
 	game->map.full = (char **)malloc(sizeof(char *) * (columns_count(game, file_name) + 1));
 	if (!game->map.full)
@@ -56,14 +56,10 @@ char **init_map(t_game *game, char *file_name)
 		line = get_next_line(fd);
 		if (!line)
 			break;
-		if (ft_strlen(line) != len_line)
-		{
-			error_message("Error\nnot rectangulare", game);
-		}
-		if (line[0] == '\n')
-		{
+		if (line[0] == '\n' || !line[0])
 			error_message("Error\nInvalid map, empty line", game);
-		}
+		if (ft_strlen(line) != len_line)
+			error_message("Error\nnot rectangulare", game);
 		how_many_inside(game, line);
 		game->map.full[i] = ft_strdup(line);
 		i++;
@@ -73,7 +69,7 @@ char **init_map(t_game *game, char *file_name)
 	close(fd);
 	return (game->map.full);
 }
-
+#include <stdio.h>
 int row_count(t_game *game, char *file_name)
 {
 	int count;
@@ -85,7 +81,7 @@ int row_count(t_game *game, char *file_name)
 	count = 0;
 	i = 0;
 	line = get_next_line(fd);
-	if (fd == -1)
+	if (fd == -1 || !line)
 	{
 		error_message("Error\nFailed to open file", game);
 	}
@@ -114,9 +110,7 @@ int columns_count(t_game *game, char *file_name)
 	count = 0;
 	line = get_next_line(fd);
 	if (fd == -1)
-	{
 		error_message("Error\nFailed to open file", game);
-	}
 	while (line)
 	{
 		count++;
@@ -137,10 +131,12 @@ void how_many_inside(t_game *game, char *line)
 	{
 		if (line[i] == PLAYER)
 			game->map.player++;
-		if (line[i] == EXIT)
+		else if (line[i] == EXIT)
 			game->map.exit++;
-		if (line[i] == COLLECTIBLE)
+		else if (line[i] == COLLECTIBLE)
 			game->map.collectible++;
+		else if (line[i] != WALL && line[i] != EMPTY && line[i] != '\n')
+			error_message("Error\nsign not recognized in the map", game);
 		i++;
 	}
 }

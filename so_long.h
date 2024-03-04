@@ -13,8 +13,10 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include "MacroLibX/includes/mlx.h"
-#include "Libft/libft.h"
+# include "MacroLibX/includes/mlx.h"
+# include "Libft/libft.h"
+
+# include <SDL2/SDL_scancode.h>
 
 # include <stdlib.h>
 # include <fcntl.h> 
@@ -95,13 +97,7 @@ void	put_player(t_texture *texture, t_game *game);
 void	put_backgrounds(t_texture *texture, t_game *game);
 void	put_all_textures(t_texture *texture, t_game *game);
 int columns_count(t_game *game, char *file_name);
-int	move_down(t_game *game);
-int	move_up(t_game *game);
-int	move_left(t_game *game);
-int	move_right(t_game *game);
-void	move_player(t_game *game);
 void	ft_player_move(t_game *game, int new_y, int new_x);
-void	ft_count_map_parameters(t_game *game);
 int playerx(t_game *game);
 int playery(t_game *game);
 
@@ -111,18 +107,7 @@ int playery(t_game *game);
 # define COLLECTIBLE 'C'
 # define WALL '1'
 # define EMPTY '0'
-
-// GAME KEYWORDS
 # define ESC 41
-# define W 119
-# define UP 65362
-# define A 4
-# define LEFT 65361
-# define S 115
-# define DOWN 65361
-# define D 100
-# define RIGHT 65363
-//# define RESTART 114
 
 # define MAX_FILES 1
 
