@@ -12,8 +12,6 @@
 
 #include "so_long.h"
 
-/*initialiser la map, */
-
 /*look the extention_file if this is a .ber*/
 int extension_file(t_game *game, char *file_name)
 {
@@ -69,7 +67,7 @@ char **init_map(t_game *game, char *file_name)
 	close(fd);
 	return (game->map.full);
 }
-#include <stdio.h>
+
 int row_count(t_game *game, char *file_name)
 {
 	int count;

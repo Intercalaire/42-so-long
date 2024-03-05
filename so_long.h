@@ -101,6 +101,7 @@ void	ft_player_move(t_game *game, int new_y, int new_x);
 int playerx(t_game *game);
 int playery(t_game *game);
 
+
 // GAME OBJECTS KEYS
 # define PLAYER 'P'
 # define EXIT 'E'
