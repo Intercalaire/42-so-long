@@ -37,6 +37,7 @@ int main(int argc, char **argv)
     game->texture = texture;
     init_game(game, argv[1]);
 	more_verif(game);
+	parse_map(game);
     game->mlx = mlx_init();
     game->win = mlx_new_window(game->mlx, game->map.columns * 90, game->map.rows * 90, "Hello world!");
     initialize_img(game, texture);

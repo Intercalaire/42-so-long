@@ -100,7 +100,7 @@ int columns_count(t_game *game, char *file_name);
 void	ft_player_move(t_game *game, int new_y, int new_x);
 int playerx(t_game *game);
 int playery(t_game *game);
-
+int	parse_map(t_game *game);
 
 // GAME OBJECTS KEYS
 # define PLAYER 'P'
