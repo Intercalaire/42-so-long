@@ -29,14 +29,14 @@ void	ft_player_move(t_game *game, int new_y, int new_x)
 			game->map.collectible--;
 		game->map.player_pos.x = new_x;
 		game->map.player_pos.y = new_y;
-        game->map.full[new_y][new_x] = PLAYER;
+		game->map.full[new_y][new_x] = PLAYER;
 		game->player_move++;
 		ft_printf("steps = %d\n", game->player_move);
-        put_all_textures(game->texture, game);
+		put_all_textures(game->texture, game);
 	}
 }
 
-int playerx(t_game *game)
+int	playerx(t_game *game)
 {
 	int	x;
 	int	y;
@@ -55,10 +55,10 @@ int playerx(t_game *game)
 		}
 		y++;
 	}
-    return (game->map.player_pos.x);
+	return (game->map.player_pos.x);
 }
 
-int playery(t_game *game)
+int	playery(t_game *game)
 {
 	int	x;
 	int	y;
@@ -77,5 +77,5 @@ int playery(t_game *game)
 		}
 		y++;
 	}
-    return (game->map.player_pos.y);
+	return (game->map.player_pos.y);
 }

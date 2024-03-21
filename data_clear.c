@@ -14,7 +14,7 @@
 
 static void	game_destroy(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (game != 0)

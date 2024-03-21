@@ -1,38 +1,70 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_textures.c                                     :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgodart <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 13:46:13 by vgodart           #+#    #+#             */
-/*   Updated: 2024/02/20 13:46:15 by vgodart          ###   ########.fr       */
+/*   Created: 2024/03/13 17:29:17 by vgodart           #+#    #+#             */
+/*   Updated: 2024/03/13 17:29:30 by vgodart          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	put_walls(t_texture *texture, t_game *game)
+int	*collectiblesy(t_game *game)
 {
 	int	x;
 	int	y;
+	int	i;
+	int	*positions;
 
+	positions = malloc((game->map.columns * game->map.rows) * sizeof(int));
+	if (!positions)
+		error_message("Error\nparsing failed", game);
+	i = 0;
 	y = 0;
 	while (game->map.full[y])
 	{
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			if (game->map.full[y][x] == WALL)
-				mlx_put_image_to_window(game->mlx, game->win,
-					texture->wall, x * 90, y * 90);
+			if (game->map.full[y][x] == COLLECTIBLE)
+				positions[i++] = y;
 			x++;
 		}
 		y++;
 	}
+	return (positions);
 }
 
-void	put_exit(t_texture *texture, t_game *game)
+int	*collectiblesx(t_game *game)
+{
+	int	x;
+	int	y;
+	int	i;
+	int	*positions;
+
+	positions = malloc(game->map.columns * game->map.rows * sizeof(int));
+	i = 0;
+	if (!positions)
+		error_message("Error\nparsing failed", game);
+	y = 0;
+	while (game->map.full[y])
+	{
+		x = 0;
+		while (game->map.full[y][x])
+		{
+			if (game->map.full[y][x] == COLLECTIBLE)
+				positions[i++] = x;
+			x++;
+		}
+		y++;
+	}
+	return (positions);
+}
+
+int	exitx(t_game *game)
 {
 	int	x;
 	int	y;
@@ -44,15 +76,15 @@ void	put_exit(t_texture *texture, t_game *game)
 		while (game->map.full[y][x])
 		{
 			if (game->map.full[y][x] == EXIT)
-				mlx_put_image_to_window(game->mlx, game->win,
-					texture->exit, x * 90, y * 90);
+				game->map.exit_pos.x = x;
 			x++;
 		}
 		y++;
 	}
+	return (game->map.exit_pos.x);
 }
 
-void	put_collectibles(t_texture *texture, t_game *game)
+int	exity(t_game *game)
 {
 	int	x;
 	int	y;
@@ -63,50 +95,11 @@ void	put_collectibles(t_texture *texture, t_game *game)
 		x = 0;
 		while (game->map.full[y][x])
 		{
-			if (game->map.full[y][x] == COLLECTIBLE)
-				mlx_put_image_to_window(game->mlx, game->win,
-					texture->collectible, x * 90, y * 90);
+			if (game->map.full[y][x] == EXIT)
+				game->map.exit_pos.y = y;
 			x++;
 		}
 		y++;
 	}
-}
-
-void	put_player(t_texture *texture, t_game *game)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (game->map.full[y])
-	{
-		x = 0;
-		while (game->map.full[y][x])
-		{
-			if (game->map.full[y][x] == PLAYER)
-				mlx_put_image_to_window(game->mlx, game->win,
-					texture->player, x * 90, y * 90);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	put_backgrounds(t_texture *texture, t_game *game)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (game->map.full[y])
-	{
-		x = 0;
-		while (game->map.full[y][x])
-		{
-			mlx_put_image_to_window(game->mlx, game->win,
-				texture->background, x * 90, y * 90);
-			x++;
-		}
-		y++;
-	}
+	return (game->map.exit_pos.y);
 }

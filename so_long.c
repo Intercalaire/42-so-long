@@ -16,34 +16,45 @@ void	error_message(char *msg, t_game *game)
 {
 	(void) game;
 	ft_printf("%s", msg);
-	data_clear(game);
 	free(game->texture);
 	free(game);
 	exit(0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_game  *game;
-    t_texture	*texture;
+	t_game		*game;
+	t_texture	*texture;
 
 	if (argc != 2)
 	{
 		ft_printf("%s", "Error\nThis programe take 1 argument .ber");
 		return (0);
 	}
-    game = malloc(sizeof(t_game));
-    texture = malloc(sizeof(t_texture));
-    game->texture = texture;
-    init_game(game, argv[1]);
+	game = malloc(sizeof(t_game));
+	if (!game)
+	{
+		ft_printf("%s", "Error\nFailed to allocate memory for game");
+		return (0);
+	}
+	texture = malloc(sizeof(t_texture));
+	if (!texture)
+	{
+		ft_printf("%s", "Error\nFailed to allocate memory for texture");
+		free(game);
+		return (0);
+	}
+	game->texture = texture;
+	init_game(game, argv[1]);
 	more_verif(game);
 	parse_map(game);
-    game->mlx = mlx_init();
-    game->win = mlx_new_window(game->mlx, game->map.columns * 90, game->map.rows * 90, "Hello world!");
-    initialize_img(game, texture);
-    mlx_on_event(game->mlx, game->win, MLX_KEYDOWN, key_hook, game);
-    mlx_on_event(game->mlx, game->win, MLX_WINDOW_EVENT, window_hook, game);
-    mlx_loop(game->mlx);
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx,
+		game->map.columns * 90, game->map.rows * 90, "Hello world!");
+	initialize_img(game, texture);
+	mlx_on_event(game->mlx, game->win, MLX_KEYDOWN, key_hook, game);
+	mlx_on_event(game->mlx, game->win, MLX_WINDOW_EVENT, window_hook, game);
+	mlx_loop(game->mlx);
 }
 
 void	put_all_textures(t_texture *texture, t_game *game)
@@ -60,7 +71,7 @@ void	load_textures(t_texture *texture, t_game *game)
 	int	x;
 	int	y;
 
-    texture->wall = mlx_png_file_to_image(game->mlx,
+	texture->wall = mlx_png_file_to_image(game->mlx,
 			"./assets/textures/background/wall.png", &x, &y);
 	texture->collectible = mlx_png_file_to_image(game->mlx,
 			"./assets/textures/treasure/collectible.png", &x, &y);

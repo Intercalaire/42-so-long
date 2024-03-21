@@ -1,8 +1,0 @@
-ok//	verifier si fichier peut etre ouvert chmode
-ok//	si map est vide			
-ok//	si la premiere ligne de la map est vide
-ok//	si parametre en plus sur la map
-	si jamais map pas rectangle
-	parsing, path_finding
-	data_clear
-

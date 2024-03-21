@@ -12,10 +12,7 @@
 
 #include "so_long.h"
 
-/*verifier ligne par ligne ce qui sy trouve et ensuite ajouter 1 a la valeur quon trouve sur par exemple il y a 2P sois 2 joueurs
-stop pas la bonne map si pas de sortie aussi si pas de piece aussi si la salle ou son les pieces est bloquer aussi*/
-
-void more_verif(t_game *game)
+void	more_verif(t_game *game)
 {
 	check_rows(game);
 	check_columns(game);
@@ -31,11 +28,13 @@ void	check_rows(t_game *game)
 	{
 		if (game->map.full[y][0] != WALL)
 		{
-			error_message("Error\nThe Map must be surrounded by walls on the left", game);
+			error_message("Error\nThe Map no surrounded by walls on the left",
+				game);
 		}
 		else if (game->map.full[y][game->map.columns - 1] != WALL)
 		{
-			error_message("Error\nThe Map must be surrounded by walls on the right", game);
+			error_message("Error\nThe Map no surrounded by walls on the right",
+				game);
 		}
 		y++;
 	}
@@ -50,16 +49,17 @@ void	check_columns(t_game *game)
 	{
 		if (game->map.full[0][x] != WALL)
 		{
-			error_message("Error\nThe Map must be surrounded be walls on the top line", game);
+			error_message("Error\nThe Map no surrounded by walls on the top",
+				game);
 		}
 		else if (game->map.full[game->map.rows - 1][x] != WALL)
 		{
-			error_message("Error\nThe Map must be surrounded be walls on the bottom line", game);
+			error_message("Error\nThe Map no surrounded by walls on the bottom",
+				game);
 		}
 		x++;
 	}
 }
-
 
 void	verification_CEP(t_game *game)
 {
