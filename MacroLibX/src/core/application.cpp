@@ -6,7 +6,7 @@
 /*   By: maldavid <kbz_8.dev@akel-engine.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 22:10:52 by maldavid          #+#    #+#             */
-/*   Updated: 2024/01/20 08:21:37 by maldavid         ###   ########.fr       */
+/*   Updated: 2024/02/25 07:52:04 by maldavid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace mlx::core
 
 	void Application::run() noexcept
 	{
-		while(_in->is_running())
+		while(_in->isRunning())
 		{
 			if(!_fps.update())
 				continue;
@@ -86,12 +86,20 @@ namespace mlx::core
 		vkDeviceWaitIdle(Render_Core::get().getDevice().get()); // TODO : synchronize with another method than waiting for GPU to be idle
 		if(ptr == nullptr)
 		{
-			core::error::report(e_kind::error, "wrong texture (NULL)");
+			core::error::report(e_kind::error, "invalid image ptr (NULL)");
+			return;
+		}
+		else if(std::find_if(_textures.begin(), _textures.end(), [=](const Texture& texture)
+			{
+				return &texture == ptr;
+			}) == _textures.end())
+		{
+			core::error::report(e_kind::error, "invalid image ptr");
 			return;
 		}
 		Texture* texture = static_cast<Texture*>(ptr);
 		if(!texture->isInit())
-			core::error::report(e_kind::error, "trying to destroy a texture");
+			core::error::report(e_kind::error, "trying to destroy a texture that has already been destroyed");
 		else
 			texture->destroy();
 	}

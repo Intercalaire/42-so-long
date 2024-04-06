@@ -12,49 +12,52 @@
 
 #include "so_long.h"
 
-void	error_message(char *msg, t_game *game)
+void	error_message(char *msg, t_game *game, int exit_time)
 {
-	(void) game;
-	ft_printf("%s", msg);
-	free(game->texture);
-	free(game);
-	exit(0);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	if (exit_time == 1)
+	{
+		free(game);
+		exit(1);
+	}
+	if (game)
+	{
+		if (game->map.full)
+			data_clear(game, 0);
+		else
+		{
+			if (game->texture)
+				free(game->texture);
+			free(game);
+		}
+	}
+	exit(1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_game		*game;
-	t_texture	*texture;
 
 	if (argc != 2)
 	{
-		ft_printf("%s", "Error\nThis programe take 1 argument .ber");
-		return (0);
+		ft_putstr_fd("Error\nThis programe take 1 arg .ber", STDERR_FILENO);
+		return (EXIT_FAILURE);
 	}
 	game = malloc(sizeof(t_game));
 	if (!game)
 	{
-		ft_printf("%s", "Error\nFailed to allocate memory for game");
-		return (0);
+		ft_putstr_fd("Error\nFailed to allocate memory,game", STDERR_FILENO);
+		return (EXIT_FAILURE);
 	}
-	texture = malloc(sizeof(t_texture));
-	if (!texture)
+	game->texture = malloc(sizeof(t_texture));
+	if (!game->texture)
 	{
-		ft_printf("%s", "Error\nFailed to allocate memory for texture");
+		ft_putstr_fd("Error\nFailed to allocate memory,texture", STDERR_FILENO);
 		free(game);
-		return (0);
+		return (EXIT_FAILURE);
 	}
-	game->texture = texture;
 	init_game(game, argv[1]);
-	more_verif(game);
-	parse_map(game);
-	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx,
-		game->map.columns * 90, game->map.rows * 90, "Hello world!");
-	initialize_img(game, texture);
-	mlx_on_event(game->mlx, game->win, MLX_KEYDOWN, key_hook, game);
-	mlx_on_event(game->mlx, game->win, MLX_WINDOW_EVENT, window_hook, game);
-	mlx_loop(game->mlx);
+	load_game(game);
 }
 
 void	put_all_textures(t_texture *texture, t_game *game)
@@ -81,4 +84,22 @@ void	load_textures(t_texture *texture, t_game *game)
 			"./assets/textures/player/player.png", &x, &y);
 	texture->background = mlx_png_file_to_image(game->mlx,
 			"./assets/textures/background/flatsize.png", &x, &y);
+}
+
+void	load_game(t_game *game)
+{
+	int	x;
+
+	x = 90;
+	more_verif(game);
+	parse_map(game);
+	game->mlx = mlx_init();
+	game->win = mlx_new_window
+		(game->mlx, game->map.columns
+			* x, game->map.rows * x, "");
+	initialize_img(game, game->texture);
+	mlx_on_event(game->mlx, game->win, MLX_KEYDOWN, key_hook, game);
+	mlx_on_event(game->mlx, game->win, MLX_WINDOW_EVENT, window_hook, game);
+	mlx_loop(game->mlx);
+	error_message("", game, 0);
 }

@@ -12,14 +12,18 @@
 
 #include "so_long.h"
 
+static void	check_rows(t_game *game);
+static void	check_columns(t_game *game);
+static void	verification_cep(t_game *game);
+
 void	more_verif(t_game *game)
 {
 	check_rows(game);
 	check_columns(game);
-	verification_CEP(game);
+	verification_cep(game);
 }
 
-void	check_rows(t_game *game)
+static void	check_rows(t_game *game)
 {
 	int	y;
 
@@ -29,18 +33,18 @@ void	check_rows(t_game *game)
 		if (game->map.full[y][0] != WALL)
 		{
 			error_message("Error\nThe Map no surrounded by walls on the left",
-				game);
+				game, 0);
 		}
 		else if (game->map.full[y][game->map.columns - 1] != WALL)
 		{
 			error_message("Error\nThe Map no surrounded by walls on the right",
-				game);
+				game, 0);
 		}
 		y++;
 	}
 }
 
-void	check_columns(t_game *game)
+static void	check_columns(t_game *game)
 {
 	int	x;
 
@@ -50,29 +54,29 @@ void	check_columns(t_game *game)
 		if (game->map.full[0][x] != WALL)
 		{
 			error_message("Error\nThe Map no surrounded by walls on the top",
-				game);
+				game, 0);
 		}
 		else if (game->map.full[game->map.rows - 1][x] != WALL)
 		{
 			error_message("Error\nThe Map no surrounded by walls on the bottom",
-				game);
+				game, 0);
 		}
 		x++;
 	}
 }
 
-void	verification_CEP(t_game *game)
+static void	verification_cep(t_game *game)
 {
 	if (game->map.collectible == 0)
 	{
-		error_message("Error\nto low collectible", game);
+		error_message("Error\nto low collectible", game, 0);
 	}
 	else if (game->map.exit != 1)
 	{
-		error_message("Error\nthere is no one exit", game);
+		error_message("Error\nthere is no one exit", game, 0);
 	}
 	else if (game->map.player != 1)
 	{
-		error_message("Error\nthere is one player", game);
+		error_message("Error\nthere is one player", game, 0);
 	}
 }

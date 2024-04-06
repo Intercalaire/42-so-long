@@ -16,36 +16,46 @@ static void	game_destroy(t_game *game)
 {
 	int	i;
 
-	i = 0;
-	if (game != 0)
+	if (game)
 	{
-		while (i < game->map.columns)
+		i = 0;
+		if (game != 0 && game->map.full != 0)
 		{
-			free(game->map.full[i]);
-			i++;
+			while (i < game->map.rows)
+			{
+				free(game->map.full[i]);
+				i++;
+			}
+			free(game->map.full);
 		}
-		free(game->map.full);
 	}
 }
 
-void	data_clear(t_game *game)
+void	data_clear(t_game *game, int exit_time)
 {
-	if (game->texture->collectible != 0)
-		mlx_destroy_image(game->mlx, game->texture->collectible);
-	if (game->texture->exit != 0)
-		mlx_destroy_image(game->mlx, game->texture->exit);
-	if (game->texture->player != 0)
-		mlx_destroy_image(game->mlx, game->texture->player);
-	if (game->texture->background != 0)
-		mlx_destroy_image(game->mlx, game->texture->background);
-	if (game->texture->wall != 0)
-		mlx_destroy_image(game->mlx, game->texture->wall);
-	if (game->win != 0 && game->mlx != 0)
+	if (game && exit_time == 0)
 	{
-		mlx_destroy_window(game->mlx, game->win);
-		mlx_destroy_display(game->mlx);
-		free(game->texture);
+		if (game->texture)
+		{
+			if (game->texture->collectible)
+				mlx_destroy_image(game->mlx, game->texture->collectible);
+			if (game->texture->exit)
+				mlx_destroy_image(game->mlx, game->texture->exit);
+			if (game->texture->player)
+				mlx_destroy_image(game->mlx, game->texture->player);
+			if (game->texture->background)
+				mlx_destroy_image(game->mlx, game->texture->background);
+			if (game->texture->wall)
+				mlx_destroy_image(game->mlx, game->texture->wall);
+			free(game->texture);
+		}
+		if (game->win && game->mlx)
+		{
+			mlx_destroy_window(game->mlx, game->win);
+			mlx_destroy_display(game->mlx);
+		}
+		if (game->map.full)
+			game_destroy(game);
+		free(game);
 	}
-	if (game != 0 || game->map.full != 0)
-		game_destroy(game);
 }

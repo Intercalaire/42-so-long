@@ -20,7 +20,7 @@ void	ft_player_move(t_game *game, int new_y, int new_x)
 	last_x = game->map.player_pos.x;
 	last_y = game->map.player_pos.y;
 	if (game->map.full[new_y][new_x] == EXIT && game->map.collectible == 0)
-		error_message("you have win", game);
+		error_message("you have win", game, 0);
 	else if ((game->map.full[new_y][new_x] == EMPTY)
 	|| (game->map.full[new_y][new_x] == COLLECTIBLE))
 	{

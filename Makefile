@@ -25,6 +25,7 @@ SRC = so_long.c \
 	player_movement.c \
 	parsing.c \
 	parsing_utils.c \
+	init_map_utils.c \
 	
 
 OBJ = $(SRC:.c=.o)

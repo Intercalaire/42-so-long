@@ -21,7 +21,7 @@ int	*collectiblesy(t_game *game)
 
 	positions = malloc((game->map.columns * game->map.rows) * sizeof(int));
 	if (!positions)
-		error_message("Error\nparsing failed", game);
+		error_message("Error\nparsing failed", game, 0);
 	i = 0;
 	y = 0;
 	while (game->map.full[y])
@@ -48,7 +48,7 @@ int	*collectiblesx(t_game *game)
 	positions = malloc(game->map.columns * game->map.rows * sizeof(int));
 	i = 0;
 	if (!positions)
-		error_message("Error\nparsing failed", game);
+		error_message("Error\nparsing failed", game, 0);
 	y = 0;
 	while (game->map.full[y])
 	{

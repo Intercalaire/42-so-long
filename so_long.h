@@ -15,11 +15,8 @@
 
 # include "MacroLibX/includes/mlx.h"
 # include "Libft/libft.h"
-
-# include <SDL2/SDL_scancode.h>
-
 # include <stdlib.h>
-# include <fcntl.h> 
+# include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
@@ -77,17 +74,11 @@ int		window_hook(int event, void *param);
 int		image_moove(int key, void *param);
 void	initialize_img(t_game *game, t_texture *texture);
 void	init_game(t_game *game, char *file_name);
-void	verification_CEP(t_game *game);
-void	check_rows(t_game *game);
-void	check_columns(t_game *game);
 void	more_verif(t_game *game);
-void	how_many_inside(t_game *game, char *line);
 char	**init_map(t_game *game, char *file_name);
-int		row_count(t_game *game, char *file_name);
-void	error_message(char *msg, t_game *game);
-int		extension_file(t_game *game, char *file_name);
+void	error_message(char *msg, t_game *game, int exit_time);
 void	clear_map(t_game *game);
-void	data_clear(t_game *game);
+void	data_clear(t_game *game, int exit_time);
 void	load_textures(t_texture *texture, t_game *game);
 void	exit_game(t_game *game);
 void	put_walls(t_texture *texture, t_game *game);
@@ -99,12 +90,15 @@ void	put_all_textures(t_texture *texture, t_game *game);
 int		columns_count(t_game *game, char *file_name);
 void	ft_player_move(t_game *game, int new_y, int new_x);
 int		playerx(t_game *game);
+int		how_many_inside(t_game *game, char *line);
 int		playery(t_game *game);
-int		parse_map(t_game *game);
+void	parse_map(t_game *game);
 int		*collectiblesy(t_game *game);
 int		*collectiblesx(t_game *game);
 int		exitx(t_game *game);
 int		exity(t_game *game);
+void	load_game(t_game *game);
+char	**init_map_utils(t_game *game, int fd, unsigned int len_line);
 
 // GAME OBJECTS KEYS
 # define PLAYER 'P'
