@@ -12,13 +12,13 @@
 
 #include "so_long.h"
 
-static	void	init_visited(t_game *game, char **visited);
+static	void	init_visit(t_game *game, char **visited, int *tabx, int *taby);
+static void	free_tab(int *tab_a, int *tab_b);
 
 static void	deep_search(t_game *game, int x, int y, char **visited)
 {
 	if (x < 0 || y < 0 || x >= game->map.columns || y >= game->map.rows
-		|| visited[y][x] || game->map.full[y][x] == WALL
-		|| game->map.full[y][x] == EXIT)
+		|| visited[y][x] || game->map.full[y][x] == WALL)
 		return ;
 	visited[y][x] = WALL;
 	deep_search(game, x + 1, y, visited);
@@ -27,7 +27,7 @@ static void	deep_search(t_game *game, int x, int y, char **visited)
 	deep_search(game, x - 1, y, visited);
 }
 
-static void	free_visited(char **visited, t_game *game)
+static void	free_visit(char **visited, t_game *game)
 {
 	int	i;
 
@@ -42,8 +42,10 @@ static void	free_visited(char **visited, t_game *game)
 
 void	parse_map(t_game *game)
 {
-	char		**visited;
-	int			i;
+	char	**visited;
+	int		i;
+	int		*tabx;
+	int		*taby;
 
 	visited = malloc((game->map.rows * game->map.columns) * sizeof(char *));
 	if (!visited)
@@ -56,33 +58,41 @@ void	parse_map(t_game *game)
 			error_message("Error\nparsing failed", game, 0);
 		i++;
 	}
-	init_visited(game, visited);
-}
-
-static	void	init_visited(t_game *game, char **visited)
-{
-	int	i;
-	int	*tabx;
-	int	*taby;
-
-	deep_search(game, playerx(game), playery(game), visited);
-	i = 0;
 	taby = collectiblesy(game);
 	tabx = collectiblesx(game);
+	init_visit(game, visited, tabx, taby);
+}
+
+static	void	init_visit(t_game *game, char **visited, int *tabx, int *taby)
+{
+	int	i;
+
+	i = 0;
+	deep_search(game, playerx(game), playery(game), visited);
 	game->map.exit_pos.y = exity(game);
 	game->map.exit_pos.x = exitx(game);
 	while (i < game->map.collectible)
 	{
 		if (!visited[taby[i]][tabx[i]])
 		{
-			free(tabx);
-			free(taby);
-			free_visited(visited, game);
+			free_tab(tabx, taby);
+			free_visit(visited, game);
 			error_message("Error\nparsing failed", game, 0);
 		}
 		i++;
 	}
-	free(tabx);
-	free(taby);
-	free_visited(visited, game);
+	if (!visited[game->map.exit_pos.y][game->map.exit_pos.x])
+	{
+		free_tab(tabx, taby);
+		free_visit(visited, game);
+		error_message("Error\nparsing failed", game, 0);
+	}
+	free_tab(tabx, taby);
+	free_visit(visited, game);
+}
+
+static void	free_tab(int *tab_a, int *tab_b)
+{
+	free(tab_a);
+	free(tab_b);
 }

@@ -30,6 +30,7 @@ void	init_game(t_game *game, char *file_name)
 	game->img_width = 0;
 	game->img_height = 0;
 	game->player_move = 0;
+	game->exit_replace = 0;
 	init_game_utils(game, file_name);
 }
 
@@ -82,6 +83,7 @@ int	window_hook(int event, void *param)
 
 void	initialize_img(t_game *game, t_texture *texture)
 {
+	verif_image(game);
 	load_textures(texture, game);
 	put_all_textures(texture, game);
 }

@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-static int	row_count(t_game *game, char *file_name);
+static int	row_count(t_game *game, char *file_name, int old_fd);
 
 static int	extension_file(t_game *game, char *file_name)
 {
@@ -42,10 +42,7 @@ char	**init_map(t_game *game, char *file_name)
 	extension_file(game, file_name);
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0 || fd > 1024)
-	{
-		close(fd);
 		error_message("Error\nFailed to open file", game, 1);
-	}
 	game->map.full = (char **)
 		ft_calloc(sizeof(char *), (columns_count(game, file_name) + 1));
 	if (!game->map.full)
@@ -53,27 +50,29 @@ char	**init_map(t_game *game, char *file_name)
 		close(fd);
 		error_message("Error\nFailed to allocate memory for game", game, 1);
 	}
-	len_line = row_count(game, file_name);
+	len_line = row_count(game, file_name, fd);
 	map = init_map_utils(game, fd, len_line);
 	close(fd);
 	return (map);
 }
 
-static int	row_count(t_game *game, char *file_name)
+static int	row_count(t_game *game, char *file_name, int old_fd)
 {
 	int		fd;
 	char	*line;
 	int		i;
 
 	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
+	if (fd < 0 || fd > 1024)
 		error_message("Error\nFailed to open file", game, 1);
 	i = 0;
 	line = get_next_line(fd);
-	if (!line)
+	if (!line || !line[0] || line[0] == EOF)
 	{
 		close(fd);
-		error_message("Error\nEmpty file", game, 1);
+		close(old_fd);
+		free(line);
+		exit_map_utils(fd, line, game, "Error\nEmpty line");
 	}
 	while (line[i])
 		i++;
@@ -95,7 +94,7 @@ int	columns_count(t_game *game, char *file_name)
 	fd = open(file_name, O_RDONLY);
 	count = 0;
 	line = get_next_line(fd);
-	if (fd == -1)
+	if (fd < 0 || fd > 1024)
 		error_message("Error\nFailed to open file", game, 1);
 	while (line)
 	{
@@ -123,16 +122,6 @@ int	how_many_inside(t_game *game, char *line)
 			game->map.collectible++;
 		else if (line[i] != WALL && line[i] != EMPTY && line[i] != '\n')
 			return (FALSE);
-		// {
-		
-		// 	free(game->map.full);
-		// 	free(game->texture);
-		// 	free(line);
-		// 	while ((line = get_next_line(fd)))
-		// 		free(line);
-		// 	close(fd);
-		// 	error_message("Error\nsign not recognized in the map", game, 1);
-		// }
 		i++;
 	}
 	return (TRUE);

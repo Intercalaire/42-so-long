@@ -17,8 +17,10 @@ void	error_message(char *msg, t_game *game, int exit_time)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	if (exit_time == 1)
 	{
+		if (game->texture)
+			free(game->texture);
 		free(game);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if (game)
 	{
@@ -31,7 +33,7 @@ void	error_message(char *msg, t_game *game, int exit_time)
 			free(game);
 		}
 	}
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int	main(int argc, char **argv)

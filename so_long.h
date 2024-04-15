@@ -64,6 +64,7 @@ typedef struct s_game
 	int			player_move;
 	int			img_width;
 	int			img_height;
+	int			exit_replace;
 	t_position	position;
 	t_map		map;
 	t_texture	*texture;
@@ -82,6 +83,7 @@ void	data_clear(t_game *game, int exit_time);
 void	load_textures(t_texture *texture, t_game *game);
 void	exit_game(t_game *game);
 void	put_walls(t_texture *texture, t_game *game);
+void	exit_map_utils(int fd, char *line, t_game *game, char *msg);
 void	put_collectibles(t_texture *texture, t_game *game);
 void	put_exit(t_texture *texture, t_game *game);
 void	put_player(t_texture *texture, t_game *game);
@@ -99,6 +101,7 @@ int		exitx(t_game *game);
 int		exity(t_game *game);
 void	load_game(t_game *game);
 char	**init_map_utils(t_game *game, int fd, unsigned int len_line);
+void	verif_image(t_game *game);
 
 // GAME OBJECTS KEYS
 # define PLAYER 'P'

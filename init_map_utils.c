@@ -12,10 +12,10 @@
 
 #include "so_long.h"
 
-static void exit_map_utils(int fd, char *line, t_game *game, char *msg)
+void	exit_map_utils(int fd, char *line, t_game *game, char *msg)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
 	while (game->map.full[j])
 	{
@@ -47,15 +47,41 @@ char	**init_map_utils(t_game *game, int fd, unsigned int len_line)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (line[0] == '\n' || !line[0])
+		if (line[0] == '\n' || !line[0] || line[0] == EOF)
 			exit_map_utils(fd, line, game, "Error\nEmpty line");
-		if (ft_strlen(line) != len_line)
+		if ((ft_strlen(line) != len_line) && (len_line != 0))
 			exit_map_utils(fd, line, game, "Error\nMap not rectangular");
-		if(!how_many_inside(game, line))
-			exit_map_utils(fd, line, game, "Error\nSign not recognized in the map");
+		if (!how_many_inside(game, line))
+			exit_map_utils(fd, line, game, "Error\nSign not recognized");
 		game->map.full[i] = line;
 		i++;
 	}
 	game->map.full[i] = NULL;
 	return (game->map.full);
+}
+
+void	verif_image(t_game *game)
+{
+	int	fd;
+
+	fd = open("./assets/textures/background/flatsize.png", O_RDONLY);
+	if (fd < 0 || fd > 1024)
+		error_message("Error\nFailed to open file", game, 0);
+	close(fd);
+	fd = open("./assets/textures/background/wall.png", O_RDONLY);
+	if (fd < 0 || fd > 1024)
+		error_message("Error\nFailed to open file", game, 0);
+	close(fd);
+	fd = open("./assets/textures/treasure/collectible.png", O_RDONLY);
+	if (fd < 0 || fd > 1024)
+		error_message("Error\nFailed to open file", game, 0);
+	close(fd);
+	fd = open("./assets/textures/exit/exit.png", O_RDONLY);
+	if (fd < 0 || fd > 1024)
+		error_message("Error\nFailed to open file", game, 0);
+	close(fd);
+	fd = open("./assets/textures/player/player.png", O_RDONLY);
+	if (fd < 0 || fd > 1024)
+		error_message("Error\nFailed to open file", game, 0);
+	close(fd);
 }

@@ -37,7 +37,7 @@ all: $(NAME)
 	
 $(NAME): $(OBJ) 
 	make -C $(Libft_PATH)
-	#make -C $(MACROLIBX_PATH)
+	make -C $(MACROLIBX_PATH)
 	$(CC) $(OBJ) $(MACROLIBX) $(Libft_FILE) -o $(NAME)
 
 
@@ -47,12 +47,12 @@ $(NAME): $(OBJ)
 
 clean: 
 	make clean -C $(Libft_PATH)
-	#make clean -C $(MACROLIBX_PATH)
+	make clean -C $(MACROLIBX_PATH)
 	rm -f $(OBJ)
 
 fclean: clean
 	make fclean -C $(Libft_PATH)
-	#make fclean -C $(MACROLIBX_PATH)
+	make fclean -C $(MACROLIBX_PATH)
 	rm -f $(NAME)
 
 re: fclean all
